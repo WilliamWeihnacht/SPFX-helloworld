@@ -20,7 +20,7 @@
     "group": { "default": "Advanced" },
     "title": { "default": "HelloWorld" },
     "description": { "default": "HelloWorld description" },
-    "officeFabricIconFontName": "Page",
+    "officeFabricIconFontName": "DocumentApproval",
     "properties": {
       "description": "HelloWorld"
     }
