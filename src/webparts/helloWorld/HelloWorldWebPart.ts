@@ -14,6 +14,7 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'HelloWorldWebPartStrings';
 import HelloWorld from './components/HelloWorld';
 import { IHelloWorldProps } from './components/IHelloWorldProps';
+import { Dropdown } from '@fluentui/react';
 
 export interface IHelloWorldWebPartProps {
   description: string;
@@ -117,6 +118,26 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyPaneTextField('test1', {
+                  label: 'Multi-line text field',
+                  multiline: true
+                }),
+                PropertyPaneCheckbox('test2', {
+                  text: 'checkbox'
+                }),
+                PropertyPaneDropdown('test3', {
+                  label: 'Dropdown',
+                  options: [
+                    {key: 1, text: 'One'},
+                    {key: 2, text: 'Two'},
+                    {key: 3, text: 'Three'}
+                  ]
+                }),
+                PropertyPaneToggle('test4', {
+                  label: 'Toggle',
+                  onText: 'On',
+                  offText: 'Off'
                 })
               ]
             }
