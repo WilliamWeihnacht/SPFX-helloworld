@@ -14,7 +14,7 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'HelloWorldWebPartStrings';
 import HelloWorld from './components/HelloWorld';
 import { IHelloWorldProps } from './components/IHelloWorldProps';
-import { Dropdown } from '@fluentui/react';
+// import { Dropdown } from '@fluentui/react';
 
 export interface IHelloWorldWebPartProps {
   description: string;
@@ -37,7 +37,11 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+        userDisplayName: this.context.pageContext.user.displayName,
+        test1: this.properties.test1,
+        test2: this.properties.test2,
+        test3: this.properties.test3,
+        test4: this.properties.test4
       }
     );
 
