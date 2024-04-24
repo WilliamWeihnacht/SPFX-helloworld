@@ -24,10 +24,10 @@ export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
           <h2>Well done, {escape(userDisplayName)}!</h2>
           <div>{environmentMessage}</div>
           <div>Web part property value: <strong>{escape(description)}</strong></div>
-          <div>Test1: {test1}</div>
-          <div>Test2: {test2}</div>
-          <div>Test3: {test3}</div>
-          <div>Test4: {test4}</div>
+          <div>Test1: {escape(test1)}</div>
+          <div>Test2: {test2 ? "on" : "off"}</div>
+          <div>Test3: {escape(test3)}</div>
+          <div>Test4: {test4 ? "on" : "off"}</div>
         </div>
         <div>
           <h3>Welcome to SharePoint Framework!</h3>

@@ -128,7 +128,8 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
                   multiline: true
                 }),
                 PropertyPaneCheckbox('test2', {
-                  text: 'checkbox'
+                  text: 'checkbox',
+                  checked: false
                 }),
                 PropertyPaneDropdown('test3', {
                   label: 'Dropdown',
@@ -141,7 +142,8 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
                 PropertyPaneToggle('test4', {
                   label: 'Toggle',
                   onText: 'On',
-                  offText: 'Off'
+                  offText: 'Off',
+                  checked: false
                 })
               ]
             }
