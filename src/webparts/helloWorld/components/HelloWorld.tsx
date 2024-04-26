@@ -2,6 +2,10 @@ import * as React from 'react';
 import styles from './HelloWorld.module.scss';
 import type { IHelloWorldProps } from './IHelloWorldProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import {
+  SPHttpClient,
+  SPHttpClientResponse
+} from '@microsoft/sp-http';
 export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
   public render(): React.ReactElement<IHelloWorldProps> {
     const {
@@ -16,6 +20,14 @@ export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
       test4,
       pageContext
     } = this.props;
+
+    const [lists, setLists] = React.useState([]);
+
+    React.useEffect(() => {
+      this.context.spHttpClient.get(`${this.context.pageContext.web.absoluteUrl}/_api/web/lists?$filter=Hidden eq false`, SPHttpClient.configurations.v1)
+      .then((response: SPHttpClientResponse) => {response.json()})
+      .then((data: any) => {setLists(data)});
+    },[]);
 
     return (
       <section className={`${styles.helloWorld} ${hasTeamsContext ? styles.teams : ''}`}>
@@ -32,6 +44,7 @@ export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
         <div>
           <div>Loading From: {escape(pageContext.web.title)}</div>
         </div>
+        {lists}
       </section>
     );
   }
