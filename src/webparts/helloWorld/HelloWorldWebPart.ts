@@ -14,6 +14,10 @@ import * as strings from 'HelloWorldWebPartStrings';
 import HelloWorld from './components/HelloWorld';
 import { IHelloWorldProps } from './components/IHelloWorldProps';
 // import { Dropdown } from '@fluentui/react';
+import {
+  SPHttpClient,
+  SPHttpClientResponse
+} from '@microsoft/sp-http';
 
 export interface IHelloWorldWebPartProps {
   description: string;
@@ -21,6 +25,15 @@ export interface IHelloWorldWebPartProps {
   test2: boolean;
   test3: string;
   test4: boolean;
+}
+
+export interface ISPLists {
+  value: ISPList[];
+}
+
+export interface ISPList {
+  Title: string;
+  Id: string;
 }
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
@@ -48,14 +61,22 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
     ReactDom.render(element, this.domElement);
   }
 
+
+
   protected onInit(): Promise<void> {
     return this._getEnvironmentMessage().then(message => {
       this._environmentMessage = message;
     });
   }
 
-
-
+  private _getListData(): Promise<ISPLists> {
+    return this.context.spHttpClient.get(this.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`, SPHttpClient.configurations.v1)
+    .then((response: SPHttpClientResponse) => {
+      return response.json();
+    })
+    .catch(() => {});
+  }
+ 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) { // running in Teams, office.com or Outlook
       return this.context.sdks.microsoftTeams.teamsJs.app.getContext()
