@@ -10,7 +10,6 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
-
 import * as strings from 'HelloWorldWebPartStrings';
 import HelloWorld from './components/HelloWorld';
 import { IHelloWorldProps } from './components/IHelloWorldProps';
@@ -41,7 +40,8 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         test1: this.properties.test1,
         test2: this.properties.test2,
         test3: this.properties.test3,
-        test4: this.properties.test4
+        test4: this.properties.test4,
+        pageContext: this.context.pageContext
       }
     );
 
