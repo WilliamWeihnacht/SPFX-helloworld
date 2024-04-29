@@ -1,4 +1,5 @@
 import { SPHttpClient } from '@microsoft/sp-http';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
 export interface IHelloWorldProps {
   description: string;
   isDarkTheme: boolean;
@@ -11,4 +12,5 @@ export interface IHelloWorldProps {
   test4: boolean;
   currentSiteUrl: string;
   spHttpClient: SPHttpClient;
+  ctx: WebPartContext;
 }

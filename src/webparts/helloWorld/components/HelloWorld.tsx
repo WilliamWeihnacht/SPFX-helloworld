@@ -17,7 +17,8 @@ const HelloWorld: React.FC<IHelloWorldProps> = (props) => {
       test3,
       test4,
       currentSiteUrl,
-      spHttpClient
+      spHttpClient,
+      ctx
     } = props;
 
     const [siteLists, setSiteLists] = useState<string[]>([]);

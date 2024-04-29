@@ -42,7 +42,8 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         test3: this.properties.test3,
         test4: this.properties.test4,
         currentSiteUrl: this.context.pageContext.web.absoluteUrl,
-        spHttpClient: this.context.spHttpClient
+        spHttpClient: this.context.spHttpClient,
+        ctx: this.context
       }
     );
 
