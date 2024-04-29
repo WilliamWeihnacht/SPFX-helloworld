@@ -1,13 +1,11 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import styles from './HelloWorld.module.scss';
 import type { IHelloWorldProps } from './IHelloWorldProps';
 import { escape } from '@microsoft/sp-lodash-subset';
-import {
-  SPHttpClient,
-  SPHttpClientResponse
-} from '@microsoft/sp-http';
-export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
-  public render(): React.ReactElement<IHelloWorldProps> {
+import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
+
+const HelloWorld: React.FC<IHelloWorldProps> = (props) => {
     const {
       description,
       isDarkTheme,
@@ -18,16 +16,23 @@ export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
       test2,
       test3,
       test4,
-      pageContext
-    } = this.props;
+      currentSiteUrl,
+      spHttpClient
+    } = props;
 
-    const [lists, setLists] = React.useState([]);
+    const [siteLists, setSiteLists] = useState<string[]>([]);
 
-    React.useEffect(() => {
-      this.context.spHttpClient.get(`${this.context.pageContext.web.absoluteUrl}/_api/web/lists?$filter=Hidden eq false`, SPHttpClient.configurations.v1)
-      .then((response: SPHttpClientResponse) => {response.json()})
-      .then((data: any) => {setLists(data)});
-    },[]);
+    useEffect(() => {
+      (async () => {
+        const endpoint: string = `${currentSiteUrl}/_api/web/lists?$select=Title&$filter=Hidden eq false&$orderby=Title&$top=10`;
+        const rawResponse: SPHttpClientResponse = await spHttpClient.get(endpoint, SPHttpClient.configurations.v1);
+        setSiteLists(
+          (await rawResponse.json()).value.map((list: { Title: string }) => {
+            return list.Title;
+          })
+        );
+      })();
+    });
 
     return (
       <section className={`${styles.helloWorld} ${hasTeamsContext ? styles.teams : ''}`}>
@@ -42,10 +47,15 @@ export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
           <div>Test4: {test4 ? "on" : "off"}</div>
         </div>
         <div>
-          <div>Loading From: {escape(pageContext.web.title)}</div>
+          <ul>
+            {
+              siteLists.map((list: string) => (
+                <li>{list}</li>
+              ))
+            }
+          </ul>
         </div>
-        {lists}
       </section>
     );
   }
-}
+export default HelloWorld;

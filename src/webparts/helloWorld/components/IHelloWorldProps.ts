@@ -1,4 +1,4 @@
-import { PageContext } from '@microsoft/sp-page-context';
+import { SPHttpClient } from '@microsoft/sp-http';
 export interface IHelloWorldProps {
   description: string;
   isDarkTheme: boolean;
@@ -9,5 +9,6 @@ export interface IHelloWorldProps {
   test2: boolean;
   test3: string;
   test4: boolean;
-  pageContext: PageContext;
+  currentSiteUrl: string;
+  spHttpClient: SPHttpClient;
 }

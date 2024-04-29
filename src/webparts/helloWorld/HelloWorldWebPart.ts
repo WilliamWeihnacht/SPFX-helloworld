@@ -41,7 +41,8 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         test2: this.properties.test2,
         test3: this.properties.test3,
         test4: this.properties.test4,
-        pageContext: this.context.pageContext
+        currentSiteUrl: this.context.pageContext.web.absoluteUrl,
+        spHttpClient: this.context.spHttpClient
       }
     );
 
@@ -49,36 +50,17 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   }
 
   protected onInit(): Promise<void> {
-    return this._getEnvironmentMessage().then(message => {
-      this._environmentMessage = message;
-    });
+    this._environmentMessage = this._getEnvironmentMessage();
+
+    return super.onInit();
   }
 
-  private _getEnvironmentMessage(): Promise<string> {
-    if (!!this.context.sdks.microsoftTeams) { // running in Teams, office.com or Outlook
-      return this.context.sdks.microsoftTeams.teamsJs.app.getContext()
-        .then(context => {
-          let environmentMessage: string = '';
-          switch (context.app.host.name) {
-            case 'Office': // running in Office
-              environmentMessage = this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentOffice : strings.AppOfficeEnvironment;
-              break;
-            case 'Outlook': // running in Outlook
-              environmentMessage = this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentOutlook : strings.AppOutlookEnvironment;
-              break;
-            case 'Teams': // running in Teams
-            case 'TeamsModern':
-              environmentMessage = this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentTeams : strings.AppTeamsTabEnvironment;
-              break;
-            default:
-              environmentMessage = strings.UnknownEnvironment;
-          }
-
-          return environmentMessage;
-        });
+  private _getEnvironmentMessage(): string {
+    if (!!this.context.sdks.microsoftTeams) { // running in Teams
+      return this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentTeams : strings.AppTeamsTabEnvironment;
     }
 
-    return Promise.resolve(this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentSharePoint : strings.AppSharePointEnvironment);
+    return this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentSharePoint : strings.AppSharePointEnvironment;
   }
 
   protected onThemeChanged(currentTheme: IReadonlyTheme | undefined): void {
